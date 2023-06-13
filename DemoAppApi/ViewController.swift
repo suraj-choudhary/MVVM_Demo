@@ -11,28 +11,27 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var model = Welcome()
     lazy var viewModel = {
         ProductViewModel()
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getProduct()
+        
         tableView.delegate = self
         tableView.dataSource = self
         registerXib()
         
+        viewModel.fetchProduct()
         
         viewModel.reloadTableView = {
-            
-            self.model = self.viewModel.products
-            print(self.model.count)
-            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+           
         }
+        
     }
+    
     
     
     func registerXib() {
@@ -46,21 +45,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return model.count
+        return viewModel.productTableCellViewModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: TableCellTableViewCell.identifier, for: indexPath) as! TableCellTableViewCell
         
-        cell.pNameLabel.text = model[indexPath.row].title
+        let vm = viewModel.getCellViewModel(at: indexPath)
+        cell.productViewModel = vm
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 100
+        return 400
     }
     
 }

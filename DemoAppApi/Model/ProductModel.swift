@@ -29,4 +29,4 @@ struct Rating: Codable {
     let count: Int
 }
 
-typealias Welcome = [ProductModel]
+typealias allProductModel = [ProductModel]

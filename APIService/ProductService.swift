@@ -7,14 +7,19 @@
 
 import Foundation
 
+
+/// Product Api Service Protocol
 protocol ProductServiceProtocol {
-    func getProduct(completion: @escaping(_ sucess: Bool, _ _results: Welcome?, _ _error: String?) -> ())
+    func getProduct(completion: @escaping(_ sucess: Bool, _ _results: allProductModel?, _ _error: String?) -> ())
 }
 
+
+
+/// Product service class
 class ProductService: ProductServiceProtocol {
     
-    func getProduct(completion: @escaping (Bool, Welcome?, String?) -> ()) {
-        RMservice.shared.execute(.products, expecting: Welcome.self) { result in
+    func getProduct(completion: @escaping (Bool, allProductModel?, String?) -> ()) {
+        RMservice.shared.execute(.products, expecting: allProductModel.self) { result in
             switch result {
             case .success(let success):
                completion(true, success, nil)
